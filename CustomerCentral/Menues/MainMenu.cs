@@ -50,6 +50,8 @@ namespace CustomerCentral.Menues
                     deleteCustomerMenu.Execute();
                     break;
                 case 4:
+                    var getCustomerMenu = new GetCustomerMenu(this.ServiceProvider);
+                    getCustomerMenu.Execute();
                     break;
                 case 5:
                     break;
