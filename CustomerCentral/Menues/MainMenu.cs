@@ -42,8 +42,12 @@ namespace CustomerCentral.Menues
                     createCustomerMenu.Execute();
                     break;
                 case 2:
+                    var updateCustomerMenu = new UpdateCustomerMenu(this.ServiceProvider);
+                    updateCustomerMenu.Execute();
                     break;
                 case 3:
+                    var deleteCustomerMenu = new DeleteCustomerMenu(this.ServiceProvider);
+                    deleteCustomerMenu.Execute();
                     break;
                 case 4:
                     break;
