@@ -6,6 +6,7 @@ using Infrastructure.EFCore.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using Infrastructure.Dapper.Repositories;
 
 namespace CustomerCentral
 {
@@ -17,7 +18,10 @@ namespace CustomerCentral
 
             // Use EntityFrameworkCore.
             serviceCollection.AddSingleton<DbContext, CustomerCentralDbContext>();
-            serviceCollection.AddTransient<IRepository<Customer>, CustomerRepository>();
+
+            //serviceCollection.AddTransient<IRepository<Customer>, CustomerRepository>();
+
+            serviceCollection.AddTransient<IRepository<Customer>, CustomerDapperRepository>();
 
             IServiceProvider serviceProvider = serviceCollection
                 .BuildServiceProvider();
