@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerCentral", "CustomerCentral\CustomerCentral.csproj", "{B1BD23CE-9E88-459F-B1CC-830A51CF362E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "..\Domain\Domain.csproj", "{FECB7587-5E15-4094-99DB-D7975E29835C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{FECB7587-5E15-4094-99DB-D7975E29835C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{01099164-552C-44BD-9E01-07A8D0E7D576}"
 EndProject
