@@ -58,14 +58,29 @@ namespace Infrastructure.Dapper.Repositories
         {
             using (IDbConnection db = new SqlConnection(this.ConstString))
             {
-                string sqlquery =
-                    "UPDATE Customer" +
-                    " SET FirstName = @FirstName, LastName = @LastName, Email = @Email, PhoneNumber = @PhoneNumber" +
-                    " WHERE ID = @id";
+                db.Open();
+                using (var trans = db.BeginTransaction())
+                {
+                    string sqlquery1 =
+                        "UPDATE Customer" +
+                        " SET FirstName = @FirstName, LastName = @LastName, Email = @Email, PhoneNumber = @PhoneNumber" +
+                        " WHERE ID = @id";
+
+                    int rowsAffected1 = db.Execute(sqlquery1, entity, trans);
+
+                    string sqlquery2 =
+                        "UPDATE Address " +
+                        "SET Street = @Street, ZipCode = @Zipcode, City = @City " +
+                        "WHERE ID = @id";
+
+                    int rowsAffected2 = db.Execute(sqlquery2, entity.Address, trans);
+
+                    trans.Commit();
+
+                    return entity;
+                }
+
                 
-                int rowsAffected = db.Execute(sqlquery, entity);
-                
-                return entity;
             }
         }
 

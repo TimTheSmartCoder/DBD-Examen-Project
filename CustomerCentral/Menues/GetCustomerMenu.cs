@@ -43,6 +43,9 @@ namespace CustomerCentral.Menues
             Console.WriteLine($"Last name: {customer.LastName}");
             Console.WriteLine($"Email: {customer.Email}");
             Console.WriteLine($"Phone number: {customer.PhoneNumber}");
+            Console.WriteLine($"Street name: {customer.Address.Street}");
+            Console.WriteLine($"City name: {customer.Address.City}");
+            Console.WriteLine($"ZipCode: {customer.Address.ZipCode}");
 
             Console.WriteLine("Press any key to continue...");
             Console.Read();

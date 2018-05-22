@@ -41,13 +41,25 @@ namespace CustomerCentral.Menues
             Console.Write($"Email({customer.Email}): ");
             var email = Console.ReadLine();
 
-            Console.Write($"Phone number: {customer.PhoneNumber}");
+            Console.Write($"Phone number: {customer.PhoneNumber}: ");
             var phoneNumber = Console.ReadLine();
 
+            Console.Write($"Street name: {customer.Address.Street}: ");
+            var street = Console.ReadLine();
+
+            Console.Write($"Write ZipCode: {customer.Address.ZipCode}: ");
+            var zipcode = Console.ReadLine();
+
+            Console.Write($"Write City: {customer.Address.City}: ");
+            var city = Console.ReadLine();
+            
             customer.FirstName = firstName;
             customer.LastName = lastName;
             customer.Email = email;
             customer.PhoneNumber = phoneNumber;
+            customer.Address.City = city;
+            customer.Address.Street = street;
+            customer.Address.ZipCode = zipcode;
 
             customer = customerRepository.Update(customer).Result;
 

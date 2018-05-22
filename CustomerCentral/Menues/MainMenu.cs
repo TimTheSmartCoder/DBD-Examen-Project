@@ -54,6 +54,8 @@ namespace CustomerCentral.Menues
                     getCustomerMenu.Execute();
                     break;
                 case 5:
+                    var getAllCustomersMenu = new GetAllCustomerMenu(this.ServiceProvider);
+                    getAllCustomersMenu.Execute();
                     break;
                 case 6:
                     this.Exit = true;
