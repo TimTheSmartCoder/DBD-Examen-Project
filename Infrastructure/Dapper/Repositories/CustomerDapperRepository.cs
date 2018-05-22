@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Remotion.Linq.Clauses;
 
 namespace Infrastructure.Dapper.Repositories
@@ -26,15 +27,30 @@ namespace Infrastructure.Dapper.Repositories
         {
             using (IDbConnection db = new SqlConnection(this.ConstString))
             {
-                string sqlquery =
-                    "INSERT INTO Customer" +
-                    " VALUES(@FirstName, @LastName, @Email, @PhoneNumber)" +
-                    " SELECT CAST(SCOPE_IDENTITY() as int)";
-                
-                    var id = await db.QueryAsync<int>(sqlquery, entity);
-                    entity.Id = id.First();
+                db.Open();
+                using (var trans = db.BeginTransaction())
+                {
+                    string addresquery = "INSERT INTO Address" +
+                                         " VALUES(@Street, @ZipCode, @City)" +
+                                         " SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                return entity;
+                    var addressID = await db.QueryAsync<int>(addresquery, entity.Address, trans);
+                    var ID = addressID.First();
+                    entity.Address.Id = ID;
+                    entity.AddressId = ID;
+
+                    string customerquery =
+                        "INSERT INTO Customer" +
+                        " VALUES(@AddressId ,@FirstName, @LastName, @Email, @PhoneNumber)" +
+                        " SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                    var customerID = await db.QueryAsync<int>(customerquery, entity, trans);
+                    entity.Id = customerID.First();
+
+                    trans.Commit();
+
+                    return entity;
+                }                
             }
         }
 
@@ -70,10 +86,24 @@ namespace Infrastructure.Dapper.Repositories
         public async Task<Customer> Get(int id)
         {           
             using (IDbConnection db = new SqlConnection(this.ConstString))
-            {         
-                var result = await db.QueryFirstAsync<Customer>("Select *  From Customer Where ID = @id", new {id});
+            {   
+                var sql = "Select * " +
+                          "From Customer " +
+                          "Join [Address] on [Address].ID = Customer.AddressID " +
+                          "Where Customer.ID = @id "; 
+                
+                var result =
+                    await db.QueryAsync<Customer, Address, Customer>(sql,
+                        (customer, address) =>
+                        {
+                            customer.Address = address;
+                            return customer;
+                        },
+                        new { id }
+                        );
+                    
 
-                return result;
+               return result.ElementAt(0);
             }
         }
         
@@ -81,10 +111,21 @@ namespace Infrastructure.Dapper.Repositories
         {
             using (IDbConnection db = new SqlConnection(this.ConstString))
             {
-                var result = await db.QueryAsync<Customer>("Select *  From Customer");
+                var sql = "Select * " +
+                          "From Customer " +
+                          "Join [Address] on [Address].ID = Customer.AddressID ";
+                          
+
+                var result = await db.QueryAsync<Customer, Address, Customer>(sql,
+                                (customer, address) =>
+                                {
+                                    customer.Address = address;
+                                    return customer;
+                                }
+                            );
 
                 return result.ToList();
             }
-        }
+        }       
     }
 }

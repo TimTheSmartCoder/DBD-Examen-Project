@@ -31,12 +31,29 @@ namespace CustomerCentral.Menues
             Console.Write("Phone number: ");
             var phoneNumber = Console.ReadLine();
 
+            Console.Write("Street name: ");
+            var street = Console.ReadLine();
+
+            Console.Write("Write ZipCode: ");
+            var zipcode = Console.ReadLine();
+
+            Console.Write("Write City: ");
+            var city = Console.ReadLine();
+
+            var address = new Address()
+            {
+                City = city,
+                Street = street,
+                ZipCode = zipcode
+            };
+
             var customer = new Customer()
             {
                 FirstName = firstName,
                 LastName = lastName,
                 Email = email,
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Address = address
             };
 
             var repository = this.ServiceProvider

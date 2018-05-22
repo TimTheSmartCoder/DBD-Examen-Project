@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Entities;
 
 namespace Infrastructure
 {
@@ -16,6 +17,6 @@ namespace Infrastructure
 
         Task<TEntity> Get(int id);
 
-        Task<List<TEntity>> All();
+        Task<List<TEntity>> All();       
     }
 }
