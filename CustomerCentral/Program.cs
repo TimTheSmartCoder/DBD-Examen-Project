@@ -19,9 +19,9 @@ namespace CustomerCentral
             // Use EntityFrameworkCore.
             serviceCollection.AddSingleton<DbContext, CustomerCentralDbContext>();
 
-            //serviceCollection.AddTransient<IRepository<Customer>, CustomerRepository>();
+            serviceCollection.AddTransient<IRepository<Customer>, CustomerRepository>();
 
-            serviceCollection.AddTransient<IRepository<Customer>, CustomerDapperRepository>();
+            //serviceCollection.AddTransient<IRepository<Customer>, CustomerDapperRepository>();
 
             IServiceProvider serviceProvider = serviceCollection
                 .BuildServiceProvider();

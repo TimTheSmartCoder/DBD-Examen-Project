@@ -25,13 +25,15 @@ namespace Infrastructure.EFCore.Repositories
 
         public async Task<List<Customer>> All()
         {
-            return await this._customers.ToListAsync();
+            return await this._customers.Include(x => x.Address).ToListAsync();
         }
 
         public async Task<Customer> Create(Customer entity)
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
+            if(entity.Address == null)
+                throw new ArgumentNullException(nameof(entity.Address));
 
             var customer = this._customers.Add(entity).Entity;
 
@@ -61,6 +63,8 @@ namespace Infrastructure.EFCore.Repositories
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
+            if (entity.Address == null)
+                throw new ArgumentNullException(nameof(entity.Address));
 
             var customer = this._customers.Update(entity).Entity;
 

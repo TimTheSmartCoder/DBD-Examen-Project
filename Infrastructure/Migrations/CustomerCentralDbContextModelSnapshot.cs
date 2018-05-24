@@ -20,10 +20,28 @@ namespace Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "2.0.3-rtm-10026")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Domain.Entities.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("Street");
+
+                    b.Property<string>("ZipCode");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Address");
+                });
+
             modelBuilder.Entity("Domain.Entities.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AddressId");
 
                     b.Property<string>("Email");
 
@@ -35,7 +53,18 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AddressId")
+                        .IsUnique();
+
                     b.ToTable("Customer");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Customer", b =>
+                {
+                    b.HasOne("Domain.Entities.Address", "Address")
+                        .WithOne("Customer")
+                        .HasForeignKey("Domain.Entities.Customer", "AddressId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

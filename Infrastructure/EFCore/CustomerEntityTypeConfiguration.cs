@@ -14,6 +14,7 @@ namespace Infrastructure.EFCore
         {
             builder.HasKey(x => x.Id);
 
+            builder.HasOne(x => x.Address).WithOne(x => x.Customer).OnDelete(DeleteBehavior.Cascade);
             builder.Property(x => x.FirstName);
             builder.Property(x => x.LastName);
             builder.Property(x => x.Email);

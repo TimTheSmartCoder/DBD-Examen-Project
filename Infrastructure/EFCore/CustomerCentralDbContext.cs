@@ -15,8 +15,11 @@ namespace Infrastructure.EFCore
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-TP8UCJ9;Database=CustomerCentral;Trusted_Connection=True;");
+            
+            //Mortens local db
+            optionsBuilder.UseSqlServer(@"Server=LAPTOP-EBCC42AV;Database=CustomerCentral;Trusted_Connection=True;");
+            //Tims loccal DB
+            //optionsBuilder.UseSqlServer(@"Server=DESKTOP-TP8UCJ9;Database=CustomerCentral;Trusted_Connection=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
